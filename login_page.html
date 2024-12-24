@@ -3,84 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Seat Reservation - Registration</title>
+    <title>Login - Library Seat Reservation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom right, #6a11cb, #2575fc);
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+            color: #fff;
         }
-        .registration-container {
+
+        .form-container {
             background-color: #fff;
+            color: #333;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            padding: 20px 30px;
-            max-width: 400px;
             width: 100%;
+            max-width: 400px;
+        }
+
+        .form-container h2 {
             text-align: center;
-        }
-        .registration-container h1 {
             margin-bottom: 20px;
-            color: #333;
+            color: #6a11cb;
         }
+
         .form-group {
             margin-bottom: 15px;
-            text-align: left;
         }
+
         .form-group label {
+            display: block;
             font-size: 14px;
-            color: #555;
+            margin-bottom: 5px;
         }
-        .form-group input, .form-group select {
+
+        .form-group input {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            margin-top: 5px;
-            font-size: 14px;
         }
+
         .form-group input:focus {
             border-color: #6a11cb;
             outline: none;
         }
-        .btn {
+
+        button {
             background-color: #6a11cb;
             color: #fff;
             border: none;
-            padding: 10px 15px;
+            padding: 10px 20px;
             border-radius: 5px;
-            font-size: 16px;
             cursor: pointer;
             width: 100%;
+            font-size: 16px;
         }
-        .btn:hover {
+
+        button:hover {
             background-color: #4a0fa9;
         }
-        .footer {
+
+        .link {
             margin-top: 15px;
-            font-size: 12px;
-            color: #777;
+            text-align: center;
         }
-        .footer a {
+
+        .link a {
             color: #6a11cb;
             text-decoration: none;
         }
-        .footer a:hover {
+
+        .link a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="registration-container">
-        <h1>Register</h1>
-        <form action="register.php" method="POST">
+    <div class="form-container">
+        <h2>Login</h2>
+        <form action="login.php" method="POST">
             <div class="form-group">
-                <label for="role">Register As:</label>
+                <label for="role">Login as:</label>
                 <select id="role" name="role" required>
                     <option value="">Select Role</option>
                     <option value="user">User</option>
@@ -88,26 +98,16 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="studentId">Student ID:</label>
-                <input type="text" id="studentId" name="studentId" placeholder="Enter your Student ID" required>
-            </div>
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" placeholder="Enter your Username" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Enter your Password" required>
+                <input type="password" id="password" name="password" required>
             </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your Password" required>
-            </div>
-            <button type="submit" class="btn">Register</button>
+            <button type="submit">Login</button>
         </form>
-        <div class="footer">
-            Already have an account? <a href="login.html">Login here</a>
-        </div>
+        <div class="link">Don't have an account? <a href="/signup_page.html">Signup here</a></div>
     </div>
 </body>
 </html>
