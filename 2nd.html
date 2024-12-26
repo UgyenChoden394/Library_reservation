@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Library Seats</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #6a11cb;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            color: #333;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .seat {
+            width: 70px;
+            height: 70px;
+            background-color: #6a11cb;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+            position: relative;
+        }
+
+        .seat.booked {
+            background-color: #ff4d4d;
+            cursor: not-allowed;
+        }
+
+        .seat:hover {
+            background-color: #4a0fa9;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            background-color: #6a11cb;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #4a0fa9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Library Seats</h1>
+
+        <!-- 1st Floor -->
+        <div class="section">
+            <h2>1st Floor</h2>
+            <button onclick="addSeat('floor-1')">Add Seat</button>
+            <div class="grid" id="floor-1"></div>
+        </div>
+
+        <!-- 2nd Floor -->
+        <div class="section">
+            <h2>2nd Floor</h2>
+            <button onclick="addSeat('floor-2')">Add Seat</button>
+            <div class="grid" id="floor-2"></div>
+        </div>
+
+        <!-- 3rd Floor -->
+        <div class="section">
+            <h2>3rd Floor</h2>
+            <button onclick="addSeat('floor-3')">Add Seat</button>
+            <div class="grid" id="floor-3"></div>
+        </div>
+
+        <!-- Discussion Room -->
+        <div class="section">
+            <h2>Discussion Room</h2>
+            <button onclick="addSeat('discussion-room')">Add Seat</button>
+            <div class="grid" id="discussion-room"></div>
+        </div>
+    </div>
+
+    <script>
+        function addSeat(sectionId) {
+            const seatName = prompt(`Enter seat name for ${sectionId.replace('-', ' ')}:`);
+            if (seatName) {
+                const grid = document.getElementById(sectionId);
+                const seat = document.createElement('div');
+                seat.className = 'seat';
+                seat.textContent = seatName;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'delete-button';
+                deleteButton.textContent = '×';
+
+                deleteButton.onclick = function (e) {
+                    e.stopPropagation(); // Prevent triggering the seat booking
+                    const confirmDelete = confirm(`Are you sure you want to delete seat: ${seatName}?`);
+                    if (confirmDelete) {
+                        grid.removeChild(seat);
+                        alert(`${seatName} has been deleted.`);
+                    }
+                };
+
+                seat.onclick = function () {
+                    if (!seat.classList.contains('booked')) {
+                        const confirmBooking = confirm(`Do you want to book seat: ${seatName}?`);
+                        if (confirmBooking) {
+                            seat.classList.add('booked');
+                            seat.textContent = `${seatName} (Booked)`;
+                            seat.appendChild(deleteButton);
+                        }
+                    } else {
+                        alert('This seat is already booked!');
+                    }
+                };
+
+                seat.appendChild(deleteButton);
+                grid.appendChild(seat);
+                alert(`${seatName} has been added to ${sectionId.replace('-', ' ')}.`);
+            }
+        }
+    </script>
+</body>
+</html>
