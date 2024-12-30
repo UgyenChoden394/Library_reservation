@@ -38,14 +38,14 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
             gap: 10px;
             margin-top: 10px;
         }
 
         .seat {
-            width: 70px;
-            height: 70px;
+            width: 50px;
+            height: 50px;
             background-color: #6a11cb;
             color: #fff;
             display: flex;
@@ -54,7 +54,6 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
-            text-align: center;
             position: relative;
         }
 
@@ -77,7 +76,7 @@
             border-radius: 50%;
             width: 20px;
             height: 20px;
-            font-size: 14px;
+            font-size: 12px;
             cursor: pointer;
             display: flex;
             justify-content: center;
@@ -97,6 +96,17 @@
         button:hover {
             background-color: #4a0fa9;
         }
+
+        input {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -106,40 +116,60 @@
         <!-- 1st Floor -->
         <div class="section">
             <h2>1st Floor</h2>
-            <button onclick="addSeat('floor-1')">Add Seat</button>
+            <div class="form-group">
+                <input type="number" id="floor-1-seats" placeholder="Enter number of seats">
+                <button onclick="addSeats('floor-1')">Add Seats</button>
+            </div>
             <div class="grid" id="floor-1"></div>
         </div>
 
         <!-- 2nd Floor -->
         <div class="section">
             <h2>2nd Floor</h2>
-            <button onclick="addSeat('floor-2')">Add Seat</button>
+            <div class="form-group">
+                <input type="number" id="floor-2-seats" placeholder="Enter number of seats">
+                <button onclick="addSeats('floor-2')">Add Seats</button>
+            </div>
             <div class="grid" id="floor-2"></div>
         </div>
 
         <!-- 3rd Floor -->
         <div class="section">
             <h2>3rd Floor</h2>
-            <button onclick="addSeat('floor-3')">Add Seat</button>
+            <div class="form-group">
+                <input type="number" id="floor-3-seats" placeholder="Enter number of seats">
+                <button onclick="addSeats('floor-3')">Add Seats</button>
+            </div>
             <div class="grid" id="floor-3"></div>
         </div>
 
         <!-- Discussion Room -->
         <div class="section">
             <h2>Discussion Room</h2>
-            <button onclick="addSeat('discussion-room')">Add Seat</button>
+            <div class="form-group">
+                <input type="number" id="discussion-room-seats" placeholder="Enter number of seats">
+                <button onclick="addSeats('discussion-room')">Add Seats</button>
+            </div>
             <div class="grid" id="discussion-room"></div>
         </div>
     </div>
 
     <script>
-        function addSeat(sectionId) {
-            const seatName = prompt(`Enter seat name for ${sectionId.replace('-', ' ')}:`);
-            if (seatName) {
-                const grid = document.getElementById(sectionId);
+        function addSeats(sectionId) {
+            const input = document.getElementById(`${sectionId}-seats`);
+            const numberOfSeats = parseInt(input.value);
+
+            if (isNaN(numberOfSeats) || numberOfSeats <= 0) {
+                alert('Please enter a valid number of seats.');
+                return;
+            }
+
+            const grid = document.getElementById(sectionId);
+
+            for (let i = 1; i <= numberOfSeats; i++) {
                 const seat = document.createElement('div');
                 seat.className = 'seat';
-                seat.textContent = seatName;
+                seat.textContent = `S${grid.children.length + 1}`;
 
                 const deleteButton = document.createElement('button');
                 deleteButton.className = 'delete-button';
@@ -147,19 +177,19 @@
 
                 deleteButton.onclick = function (e) {
                     e.stopPropagation(); // Prevent triggering the seat booking
-                    const confirmDelete = confirm(`Are you sure you want to delete seat: ${seatName}?`);
+                    const confirmDelete = confirm(`Are you sure you want to delete seat: ${seat.textContent}?`);
                     if (confirmDelete) {
                         grid.removeChild(seat);
-                        alert(`${seatName} has been deleted.`);
+                        alert(`${seat.textContent} has been deleted.`);
                     }
                 };
 
                 seat.onclick = function () {
                     if (!seat.classList.contains('booked')) {
-                        const confirmBooking = confirm(`Do you want to book seat: ${seatName}?`);
+                        const confirmBooking = confirm(`Do you want to book seat: ${seat.textContent}?`);
                         if (confirmBooking) {
                             seat.classList.add('booked');
-                            seat.textContent = `${seatName} (Booked)`;
+                            seat.textContent = `${seat.textContent} (Booked)`;
                             seat.appendChild(deleteButton);
                         }
                     } else {
@@ -169,8 +199,10 @@
 
                 seat.appendChild(deleteButton);
                 grid.appendChild(seat);
-                alert(`${seatName} has been added to ${sectionId.replace('-', ' ')}.`);
             }
+
+            alert(`${numberOfSeats} seats have been added to ${sectionId.replace('-', ' ')}.`);
+            input.value = '';
         }
     </script>
 </body>
